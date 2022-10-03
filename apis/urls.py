@@ -1,11 +1,14 @@
 from django.urls import path
 
 
-from .views import  TaskDetialsView, TaskListView , ProjectTaskListView,ProjectsListView,ProjectUserTaskListView
+
+from .views import  TaskAssignView, TaskDetialsView, TaskListView , ProjectTaskListView,ProjectsListView,ProjectUserTaskListView , update_task
 
 urlpatterns = [
     path('tasks/', TaskListView.as_view()),
     path('task/<int:pk>/', TaskDetialsView.as_view()),
+    path('task/<int:pk>/assign', TaskAssignView.as_view()),
+    path('tasks/<int:pk>/update', update_task, name='tasks-update'),
     path('projects/',ProjectsListView.as_view()),
     path('projects/<int:proj_id>/tasks',ProjectTaskListView.as_view()),
     path('projects/<int:p_id>/tasks/user/<int:u_id>', ProjectUserTaskListView.as_view()),
