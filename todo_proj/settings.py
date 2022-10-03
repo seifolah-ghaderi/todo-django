@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # frameworks
     'rest_framework',
     'knox',  # rest auth module
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -127,5 +128,27 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'knox.auth.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
+}
+
+#enable login and authorize in swagger with token!
+SWAGGER_SETTINGS = {
+
+    'VALIDATOR_URL': 'http://localhost:8000',
+    'DEFAULT_INFO': 'import.path.to.urls.api_info',
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
 }
