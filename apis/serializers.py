@@ -41,14 +41,6 @@ class TaskDetailSerializer(serializers.ModelSerializer):
         )
         model = models.Task
 
-class TaskUpdateSerializer(serializers.ModelSerializer):
-    assignee = UserSerializer(read_only=True, many=True)
-    class Meta:
-        fields = (
-            'id',
-            'assignee',
-        )
-        model = models.Task
 
 class UserTasksSerializer(serializers.ModelSerializer):
     assignee = UserSerializer(read_only=True, many=True)
@@ -73,25 +65,13 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class TaskUpdateSerializer(serializers.ModelSerializer):
-   
-    #asignee=UserSerializer(read_only=True, many=True)
-    assing_ids = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=User.objects.all(), source='asignee')
-
-   
+    assignee = UserSerializer(read_only=True, many=True)
     class Meta:
         fields = (
             'id',
-            'assing_ids',
+            'assignee',
         )
         model = models.Task
-    
-    def update(self, instance, validated_data):
-        validated_data['assing_ids'] = filter(None, validated_data['assing_ids'])
-        for id in validated_data['assing_ids']:
-            skill = User.objects.get(pk=id)
-            instance.asignee.add(skill)
-
-        return instance
 
 
 
